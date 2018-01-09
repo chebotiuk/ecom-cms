@@ -1,0 +1,19 @@
+{
+  "name": "chat",
+  "version": "0.0.1",
+  "private": true,
+  "scripts": {
+    "start": "NODE_PATH=. NODE_ENV=development supervisor app.js"
+  },
+  "dependencies": {
+    "bootstrap": "^3.3.7",
+    "ejs": "*",
+    "ejs-locals": "^1.0.2",
+    "express": "3.3.8",
+    "express-handlebars": "^3.0.0",
+    "mongodb": "^2.2.29",
+    "mongoose": "^4.10.7",
+    "nconf": "^0.8.4",
+    "winston": "^2.3.1"
+  }
+}
