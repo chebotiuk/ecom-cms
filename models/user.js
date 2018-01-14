@@ -1,6 +1,8 @@
 var path = require('path');
+var crypto = require('crypto')
 var mongoose = require(path.join(__dirname, '../libs/mongoose')),
-	Schema = mongoose.Schema; // подключаем модуль Schema
+
+Schema = mongoose.Schema; // подключаем модуль Schema
 
 var schema = new Schema({ // Создаем схему
 	username: {
@@ -22,11 +24,12 @@ var schema = new Schema({ // Создаем схему
 	}
 });
 
-schema.methods.encryptPassword = function() {
+schema.methods.encryptPassword = function(password) {
 	return crypto.createHmac('sha1', this.salt).update(password).digest('hex');
 };
+
 schema.virtual('password')
-	.set(function() {
+	.set(function(password) {
 		this._plainPassword = password;
 		this.salt = Math.random() + '';
 		this.hashedPassword = this.encryptPassword(password);

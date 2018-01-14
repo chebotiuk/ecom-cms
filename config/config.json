@@ -3,11 +3,8 @@
 	"mongoose": {
 		"url": "mongodb://localhost/chat",
 		"options": {
-			"server": {
-				"socketOptions": {
-					"keepAlive": 1
-				}
-			}
+			"useMongoClient": true,
+			"keepAlive": 1
 		}
 	}
 }

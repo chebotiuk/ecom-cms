@@ -1,8 +1,13 @@
 var path = require('path');
 var mongoose = require('mongoose');
-var config = require(path.join(__dirname, '../config'));
+var config = require('config');
 
-mongoose.Promise = global.Promise;
 mongoose.connect(config.get('mongoose:url'), config.get('mongoose:options'));
+mongoose.Promise = global.Promise;
+
+// mongoose.on('error', console.error.bind(console, 'connection error:'));
+// mongoose.once('open', function() {
+//   console.log("we're connected!")
+// });
 
 module.exports = mongoose;

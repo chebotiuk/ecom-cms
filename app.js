@@ -4,8 +4,8 @@ var path = require('path');
 var config = require('config');
 var log = require('libs/logger')(module);
 var hb = require('express-handlebars');
-var routes = require('./routes');
-var user = require('./routes/user');
+var routes = require('routes');
+var user = require('routes/user');
 
 var app = express();
 http.createServer(app)
