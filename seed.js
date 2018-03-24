@@ -1,5 +1,35 @@
 var mongoose = require('libs/mongoose')
-var User = require('models/user').User
+// var User = require('models/user').User
+mongoose.set('debug', true)
+
+var users = [
+  {
+    username: 'Admin',
+    password: 'admin_password'
+  },
+  {
+    username: 'Manager',
+    password: 'managers_password'
+  },
+  {
+    username: 'Client',
+    password: 'clients_password'
+  }
+]
+
+function requireModels () {
+  require('models/user')
+
+  return Promise.all(
+    Object.keys(mongoose.models)
+      .map(model => mongoose.models[model].ensureIndexes())
+  )
+}
+
+function saveUser(userOptions) {
+  var user = new mongoose.models.User(userOptions) // new User(userOptions)
+  return user.save()
+}
 
 function dropDatabase() {
   var db = mongoose.connection.db
@@ -7,26 +37,9 @@ function dropDatabase() {
 }
 
 function createUsers() {
-  var admin = new User({
-    username: 'Admin',
-    password: 'admin_password'
-  })
-
-  var manager = new User({
-    username: 'Manager',
-    password: 'managers_password'
-  })
-
-  var client = new User({
-    username: 'Client',
-    password: 'clients_password'
-  })
-
-  return Promise.all([
-    admin.save(),
-    manager.save(),
-    client.save()
-  ])
+  return Promise.all(
+    users.map(saveUser)
+  )
 }
 
 function close() {
@@ -34,9 +47,13 @@ function close() {
 }
 
 mongoose.connection.on('open', dropDatabase)
+  .then(requireModels)
   .then(createUsers)
   .then(close)
   .then(() => {
     console.log('Seed has been successful!')
   })
-  .catch(err => { throw err });
+  .catch(err => {
+    close()
+    throw err
+  })
