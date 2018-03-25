@@ -1,1 +1,2 @@
-<h1>{{ message }}</h1>
+<h1>An error has been occured</h1>
+<h2 styles="color: red">{{ error }}</h2>

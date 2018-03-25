@@ -4,14 +4,13 @@ var path = require('path');
 var config = require('config');
 var log = require('libs/logger')(module);
 var hb = require('express-handlebars');
+var HttpError = require('error').HttpError;
+var sendHttpError = require('middleware/sendHttpError');
 var routes = require('routes');
-var user = require('routes/user');
+var mongoose = require('libs/mongoose');
+var MongoStore = require('connect-mongo')(express);
 
 var app = express();
-http.createServer(app)
-  .listen(config.get('port'), function() {
-    log.info('Express server listening on port ' + config.get('port'));
-  });
 
 // view engine setup
 app.engine('hb', hb({
@@ -23,35 +22,53 @@ app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'hb');
 
 app.use(express.favicon()); // устанавливает favicon.ico
+
 if (app.get('env') == 'development') { // выводит инфо о запросе
   app.use(express.logger('dev'));
 } else {
   app.use(express.logger('default'));
 }
+
 app.use(express.bodyParser()); // разбирает тело запроса из POST, парсит в req.body
+
 app.use(express.cookieParser('your secret here')); // req.headers.cookie -> req.cookie
+
+app.use(express.session({
+  secret: config.get('session:secret'),
+  key: config.get('session:key'),
+  cookie: config.get('session:cookie'),
+  store: new MongoStore({ mongooseConnection: mongoose.connection })
+}));
+
+app.use(function(req, res, next) {
+  req.session.numberOfVisits = req.session.numberOfVisits + 1 || 1;
+  next()
+})
+
+app.use(sendHttpError)
 
 app.use(app.router); // как обрабатывать запросы
 
-app.get('/', function(req, res, next) {
-  res.render('home', {
-    title: '<u>Hello, It is a first page on Node.js app</u>',
-    condition: true,
-    listArr: ['Test task from array 1', 'Test task from array 2', 'Test task from array 3']
-  });
-});
+routes(app);
 
 app.use(express.static(path.join(__dirname, 'public'))); // отдает статические файлы (из public), если ничего не было найдено выше 
 
 app.use(function(err, req, res, next) {
-  if (process.env.NODE_ENV === 'development') {
-    var errorHandler = express.errorHandler();
-    errorHandler(err, req, res, next);
+  if (err instanceof HttpError) {
+    res.sendHttpError(err);
   } else {
-    res.send(500);
+    if (app.get('env') === 'development') {
+      var errorHandler = express.errorHandler();
+      errorHandler(err, req, res, next);
+    } else {
+      log.error(err)
+      err = new HttpError(500);
+      res.sendHttpError(err);
+    }
   }
 })
 
-// app.get('/', routes.index);
-// app.get('/users', user.list);
-
+http.createServer(app)
+  .listen(config.get('port'), function() {
+    log.info('Express server listening on port ' + config.get('port'));
+  });
