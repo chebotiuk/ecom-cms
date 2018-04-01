@@ -1,5 +1,6 @@
 <h1>{{{ title }}}</h1>
 <p>Welcome to {{{ title }}}</p>
+<p>{{ userId }}</p>
 
 {{# if condition }}
 	Condition is true

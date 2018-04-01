@@ -1,10 +1,12 @@
 var User = require('models/user').User;
 var HttpError = require('error').HttpError;
+var AuthError = require('models/user').AuthError;
 var ObjectId = require('mongodb').ObjectId;
 
 module.exports = function(app) {
   app.get('/', function(req, res, next) {
     res.render('home', {
+      userId: req.session.user,
       title: '<u>Hello, It is a first page on Node.js app</u>',
       condition: true,
       listArr: ['Test task from array 1', 'Test task from array 2', 'Test task from array 3']
@@ -18,29 +20,21 @@ module.exports = function(app) {
     var username = req.body.username;
     var password = req.body.password;
 
-    User.findOne({ username: username })
-      .then(user => {
-        if (user) {
-          if (user.checkPassword(password)) {
-            return user;
-          } else {
-            throw new HttpError(403, 'Password incorrect');
-          }
-        } else {
-          var newUser = new User({
-            username: username,
-            password: password
-          });
-
-          return newUser.save();
-        }
-      })
+    User.authorize(username, password)
       .then(user => {
         req.session.user = user._id;
         res.send({});
       })
       .catch(err => {
-        next(err);
+        if (err) {
+          if (err instanceof AuthError) {
+            next(new HttpError(403, err.message));
+            return
+          } else {
+            next(err)
+            return
+          }
+        }
       })
   });
 

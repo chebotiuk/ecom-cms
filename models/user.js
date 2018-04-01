@@ -1,8 +1,16 @@
 var path = require('path');
-var crypto = require('crypto')
+var util = require('util');
+var crypto = require('crypto');
 var mongoose = require(path.join(__dirname, '../libs/mongoose')),
-
   Schema = mongoose.Schema; // подключаем модуль Schema
+
+function AuthError(message) {
+  Error.captureStackTrace(this, AuthError);
+
+  this.message = message
+}
+util.inherits(AuthError, Error);
+AuthError.prototype.name = 'AuthError';
 
 var schema = new Schema({ // Создаем схему
   username: {
@@ -42,4 +50,27 @@ schema.methods.checkPassword = function(password) {
   return this.encryptPassword(password) === this.hashedPassword;
 };
 
+schema.statics.authorize = function(username, password) {
+  var User = this;
+
+  return User.findOne({ username: username })
+    .then(user => {
+      if (user) {
+        if (user.checkPassword(password)) {
+          return user;
+        } else {
+          throw new AuthError('Password incorrect');
+        }
+      } else {
+        var newUser = new User({
+          username: username,
+          password: password
+        });
+
+        return newUser.save();
+      }
+    })
+}
+
 exports.User = mongoose.model('User', schema); // Экспортируем объект для управления бд
+exports.AuthError = AuthError;
