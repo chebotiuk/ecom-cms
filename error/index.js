@@ -2,7 +2,6 @@ var util = require('util');
 var http = require('http');
  
 function HttpError(status, message) {
-  Error.apply(this, arguments);
   Error.captureStackTrace(this, HttpError);
 
   this.status = status;

@@ -11,6 +11,39 @@ module.exports = function(app) {
     });
   });
 
+  app.get('/login', function(req, res, next) {
+    res.render('login');
+  });
+  app.post('/login', function(req, res, next) {
+    var username = req.body.username;
+    var password = req.body.password;
+
+    User.findOne({ username: username })
+      .then(user => {
+        if (user) {
+          if (user.checkPassword(password)) {
+            return user;
+          } else {
+            throw new HttpError(403, 'Password incorrect');
+          }
+        } else {
+          var newUser = new User({
+            username: username,
+            password: password
+          });
+
+          return newUser.save();
+        }
+      })
+      .then(user => {
+        req.session.user = user._id;
+        res.send({});
+      })
+      .catch(err => {
+        next(err);
+      })
+  });
+
   app.get('/users', function(req, res, next) {
     User.find({}, function(err, users) {
       if (err) return next(err);
