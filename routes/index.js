@@ -2,11 +2,11 @@ var User = require('models/user').User;
 var HttpError = require('error').HttpError;
 var AuthError = require('models/user').AuthError;
 var ObjectId = require('mongodb').ObjectId;
+var checkAuth = require('middleware/checkAuth');
 
 module.exports = function(app) {
   app.get('/', function(req, res, next) {
     res.render('home', {
-      userId: req.session.user,
       title: '<u>Hello, It is a first page on Node.js app</u>',
       condition: true,
       listArr: ['Test task from array 1', 'Test task from array 2', 'Test task from array 3']
@@ -36,6 +36,14 @@ module.exports = function(app) {
           }
         }
       })
+  });
+  app.post('/logout', function(req, res, next) {
+    req.session.destroy();
+    res.redirect('/');
+  });
+
+  app.get('/chat', checkAuth, function(req, res, next) {
+    res.render('chat');
   });
 
   app.get('/users', function(req, res, next) {

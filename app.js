@@ -6,6 +6,7 @@ var log = require('libs/logger')(module);
 var hb = require('express-handlebars');
 var HttpError = require('error').HttpError;
 var sendHttpError = require('middleware/sendHttpError');
+var loadUser = require('middleware/loadUser');
 var routes = require('routes');
 var mongoose = require('libs/mongoose');
 var MongoStore = require('connect-mongo')(express);
@@ -46,6 +47,7 @@ app.use(function(req, res, next) {
 })
 
 app.use(sendHttpError)
+app.use(loadUser)
 
 app.use(app.router); // как обрабатывать запросы
 

@@ -11,7 +11,6 @@
       <div class="col-md-12">
         <div class="header">
           <span class="title">Chat</span>
-          <a href="/login">Log In</a>
         </div>
       </div>
     </div>
