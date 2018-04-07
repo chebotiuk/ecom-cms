@@ -10,6 +10,7 @@ var loadUser = require('middleware/loadUser');
 var routes = require('routes');
 var mongoose = require('libs/mongoose');
 var MongoStore = require('connect-mongo')(express);
+var socketio = require('socket.io');
 
 var app = express();
 
@@ -70,7 +71,16 @@ app.use(function(err, req, res, next) {
   }
 })
 
-http.createServer(app)
+var server = http.createServer(app)
   .listen(config.get('port'), function() {
     log.info('Express server listening on port ' + config.get('port'));
   });
+
+var io = socketio(server);
+
+io.on('connection', function (socket) {
+  socket.emit('news', { hello: 'world' });
+  socket.on('my other event', function (data) {
+    console.log(data);
+  });
+});
