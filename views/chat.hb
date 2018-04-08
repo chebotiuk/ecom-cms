@@ -9,8 +9,8 @@
 <script src="/js/socket.io.js"></script>
 <script type="text/javascript">
   (function() {
-    var socket = io('', {
-      reconnectionDelay: 1,
+    var socket = io.connect('', {
+      reconnection: false,
     });
     console.log(socket);
 
@@ -44,9 +44,17 @@
             console.warn("connection lost");
             form.removeEventListener('submit', sendMessage);
             input.setAttribute('disabled', true);
-          })
-          .on('reconnect_failed', function() {
-            console.error("connection lost forever!");
-          })
+
+            // handling reconnect
+            setTimeout(reconnect, 500);
+          });
+
+    function reconnect() {
+      socket.on('connect_error', function() {
+        setTimeout(reconnect, 500);
+      });
+
+      socket.connect();
+    }
   })();
 </script>
