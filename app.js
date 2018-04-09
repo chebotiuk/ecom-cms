@@ -8,8 +8,7 @@ var HttpError = require('error').HttpError;
 var sendHttpError = require('middleware/sendHttpError');
 var loadUser = require('middleware/loadUser');
 var routes = require('routes');
-var mongoose = require('libs/mongoose');
-var MongoStore = require('connect-mongo')(express);
+var sessionStore = require('libs/sessionStore');
 var socket = require('socket');
 
 var app = express();
@@ -39,7 +38,7 @@ app.use(express.session({
   secret: config.get('session:secret'),
   key: config.get('session:key'),
   cookie: config.get('session:cookie'),
-  store: new MongoStore({ mongooseConnection: mongoose.connection })
+  store: sessionStore
 }));
 
 app.use(function(req, res, next) {
