@@ -49,6 +49,9 @@
 
             // handling reconnect
             setTimeout(reconnect, 500);
+          })
+          .on('logout', function() {
+            location.href = '/';
           });
 
     function reconnect() {

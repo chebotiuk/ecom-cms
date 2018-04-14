@@ -75,4 +75,5 @@ var server = http.createServer(app)
     log.info('Express server listening on port ' + config.get('port'));
   });
 
-socket(server);
+var io = socket(server);
+app.set('io', io); // we can get it via req.app.get('io')

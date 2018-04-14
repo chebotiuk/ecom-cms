@@ -38,8 +38,19 @@ module.exports = function(app) {
       })
   });
   app.post('/logout', function(req, res, next) {
-    req.session.destroy();
-    res.redirect('/');
+    var sid = req.session.id;
+    var io = req.app.get('io');
+
+    req.session.destroy(function(err) {
+      io.sockets._events.sessreload(sid); //generate system io event
+
+      if (err) {
+        next(err);
+        return
+      }
+
+      res.redirect('/');
+    });
   });
 
   app.get('/chat', checkAuth, function(req, res, next) {

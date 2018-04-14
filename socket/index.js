@@ -6,6 +6,7 @@ var cookie = require('cookie');
 var cookieParser = require('cookie-parser');
 var sessionStore = require('libs/sessionStore');
 var HttpError = require('error').HttpError;
+var util = require('util');
 
 function loadSession(sid) {
   return sessionStore.get(sid);
@@ -40,7 +41,10 @@ module.exports = function (server) {
           throw new HttpError(401, 'No session');
         }
 
-        handshake.session = session;
+        handshake.session = {
+          ...session,
+          id: sid,
+        };
 
         return session;
       })
@@ -51,7 +55,7 @@ module.exports = function (server) {
         }
 
         handshake.user = user;
-        return user
+        return user;
       })
       .then(() => {
         next();
@@ -60,7 +64,7 @@ module.exports = function (server) {
       .catch(err => {
         if (err instanceof HttpError) {
           next(new HttpError(err.status, err.message));
-          return
+          return;
         }
 
         next(err);
@@ -73,9 +77,35 @@ module.exports = function (server) {
     // else just call next()
   });
 
+  io.on('sessreload', function(sid) {
+    var clients = io.sockets.sockets; // getting list of sockets
+
+    Object.values(clients).forEach(function(client) {
+      if (client.handshake.session.id !== sid) return;
+
+      loadSession(sid)
+        .then(session => {
+          if (!session) {
+            client.emit('logout', 'handshake anauthorized');
+            client.disconnect();
+            return;
+          }
+
+          client.handshake.session = {
+            ...session,
+            sid,
+          };
+        })
+        .catch(() => {
+          client.emit('reconnect_error', 'server error');
+          client.disconnect();
+          return;
+        })
+    });
+  })
+
   io.on('connection', function (socket) {
     var username = socket.handshake.user.get('username');
-    console.log(socket.handshake.user.get('username'));
 
     socket.broadcast.emit('join', username, 'вошел в чат');
 
@@ -88,4 +118,6 @@ module.exports = function (server) {
       socket.broadcast.emit('leave', username, 'вышел из чата');
     })
   });
+
+  return io;
 }

@@ -33,6 +33,7 @@
       if (xhr.readyState == 4 && xhr.status === 200) {
         var data = JSON.parse(xhr.responseText);
         console.log('login', data);
+        location.href = '/';
       } else {
         console.error(xhr.statusText);
       }
