@@ -18,9 +18,9 @@
     var input = document.querySelector('#input');
     var ul = document.querySelector('#ul');
 
-    function addMessage(text) {
+    function addMessage(username, text) {
       var li = document.createElement('li');
-      li.textContent = text;
+      li.textContent = username + ': ' + text;
       ul.appendChild(li);
     }
 
@@ -35,6 +35,8 @@
     }
 
     socket.on('message', addMessage)
+          .on('leave', addMessage)
+          .on('join', addMessage)
           .on('connect', function() {
             console.log("connection successful");
             form.addEventListener('submit', sendMessage);

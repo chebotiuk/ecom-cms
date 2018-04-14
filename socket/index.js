@@ -74,9 +74,18 @@ module.exports = function (server) {
   });
 
   io.on('connection', function (socket) {
+    var username = socket.handshake.user.get('username');
+    console.log(socket.handshake.user.get('username'));
+
+    socket.broadcast.emit('join', username, 'вошел в чат');
+
     socket.on('message', function (text, cb) {
-      socket.broadcast.emit('message', text);
-      if (cb) cb(text);
+      socket.broadcast.emit('message', username, text);
+      if (cb) cb(username, text);
     });
+
+    socket.on('disconnect', function() {
+      socket.broadcast.emit('leave', username, 'вышел из чата');
+    })
   });
 }
