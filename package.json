@@ -6,14 +6,11 @@
     "start": "NODE_PATH=. NODE_ENV=development supervisor app.js"
   },
   "dependencies": {
-    "bootstrap": "^3.3.7",
     "connect": "^3.6.6",
     "connect-mongo": "^2.0.1",
     "cookie": "^0.3.1",
     "cookie-parser": "^1.4.3",
     "crypto": "^1.0.1",
-    "ejs": "*",
-    "ejs-locals": "^1.0.2",
     "express": "3.3.8",
     "express-handlebars": "^3.0.0",
     "mongodb": "^2.2.29",
@@ -23,7 +20,6 @@
     "winston": "^2.3.1"
   },
   "devDependencies": {
-    "eslint": "^4.19.0",
-    "eslint-plugin-react": "^7.7.0"
+    "eslint": "^4.19.0"
   }
 }
