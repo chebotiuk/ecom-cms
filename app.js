@@ -42,9 +42,9 @@ app.use(express.session({
 	store: sessionStore
 }));
 
-app.use(function(req, res, next) {
+app.use((req, res, next) => {
 	req.session.numberOfVisits = req.session.numberOfVisits + 1 || 1;
-	next()
+	next();
 })
 
 app.use(sendHttpError)
@@ -56,7 +56,7 @@ routes(app);
 
 app.use(express.static(path.join(__dirname, 'public'))); // отдает статические файлы (из public), если ничего не было найдено выше 
 
-app.use(function(err, req, res, next) {
+app.use((err, req, res, next) => {
 	if (err instanceof HttpError) {
 		res.sendHttpError(err);
 	} else {
@@ -64,16 +64,17 @@ app.use(function(err, req, res, next) {
 			var errorHandler = express.errorHandler();
 			errorHandler(err, req, res, next);
 		} else {
-			log.error(err)
+			log.error(err);
 			err = new HttpError(500);
 			res.sendHttpError(err);
 		}
 	}
 })
 
+const port = process.env.PORT
 var server = http.createServer(app)
-	.listen(config.get('port'), function() {
-		log.info('Express server listening on port ' + config.get('port'));
+	.listen(port, () => {
+		log.info('Express server listening on port ' + port);
 	});
 
 var io = socket(server);
