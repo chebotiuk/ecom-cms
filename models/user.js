@@ -2,7 +2,7 @@ var path = require('path');
 var util = require('util');
 var crypto = require('crypto');
 var mongoose = require(path.join(__dirname, '../libs/mongoose')),
-  Schema = mongoose.Schema; // подключаем модуль Schema
+  Schema = mongoose.Schema;
 
 function AuthError(message) {
   Error.captureStackTrace(this, AuthError);
@@ -12,7 +12,7 @@ function AuthError(message) {
 util.inherits(AuthError, Error);
 AuthError.prototype.name = 'AuthError';
 
-var schema = new Schema({ // Создаем схему
+var schema = new Schema({
   username: {
     type: String,
     unique: true,

@@ -12,7 +12,6 @@
     var socket = io.connect('', {
       reconnection: false,
     });
-    console.log(socket);
 
     var form = document.querySelector('#form');
     var input = document.querySelector('#input');

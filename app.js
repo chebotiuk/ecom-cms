@@ -16,9 +16,9 @@ var app = express();
 
 // view engine setup
 app.engine('hb', hb({
-	extname: 'hb',
-	defaultLayout: 'index',
-	layoutsDir: __dirname + '/views/layouts/'
+  extname: 'hb',
+  defaultLayout: 'index',
+  layoutsDir: __dirname + '/views/layouts/'
 }));
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'hb');
@@ -26,9 +26,9 @@ app.set('view engine', 'hb');
 app.use(express.favicon()); // устанавливает favicon.ico
 
 if (app.get('env') == 'development') { // выводит инфо о запросе
-	app.use(express.logger('dev'));
+  app.use(express.logger('dev'));
 } else {
-	app.use(express.logger('default'));
+  app.use(express.logger('default'));
 }
 
 app.use(express.bodyParser()); // разбирает тело запроса из POST, парсит в req.body
@@ -36,46 +36,47 @@ app.use(express.bodyParser()); // разбирает тело запроса и�
 app.use(express.cookieParser('your secret here')); // req.headers.cookie -> req.cookie
 
 app.use(express.session({
-	secret: config.get('session:secret'),
-	key: config.get('session:key'),
-	cookie: config.get('session:cookie'),
-	store: sessionStore
+  secret: config.get('session:secret'),
+  key: config.get('session:key'),
+  cookie: config.get('session:cookie'),
+  store: sessionStore
 }));
 
 app.use((req, res, next) => {
-	req.session.numberOfVisits = req.session.numberOfVisits + 1 || 1;
-	next();
+  req.session.numberOfVisits = req.session.numberOfVisits + 1 || 1;
+  next();
 })
 
 app.use(sendHttpError)
+
 app.use(loadUser)
 
-app.use(app.router); // как обрабатывать запросы
+app.use(app.router);
 
 routes(app);
 
-app.use(express.static(path.join(__dirname, 'public'))); // отдает статические файлы (из public), если ничего не было найдено выше 
+app.use(express.static(path.join(__dirname, 'public')));
 
 app.use((err, req, res, next) => {
-	if (err instanceof HttpError) {
-		res.sendHttpError(err);
-	} else {
-		if (app.get('env') === 'development') {
-			var errorHandler = express.errorHandler();
-			errorHandler(err, req, res, next);
-		} else {
-			log.error(err);
-			err = new HttpError(500);
-			res.sendHttpError(err);
-		}
-	}
+  if (err instanceof HttpError) {
+    res.sendHttpError(err);
+  } else {
+    if (app.get('env') === 'development') {
+      var errorHandler = express.errorHandler();
+      errorHandler(err, req, res, next);
+    } else {
+      log.error(err);
+      err = new HttpError(500);
+      res.sendHttpError(err);
+    }
+  }
 })
 
 const port = process.env.PORT
 var server = http.createServer(app)
-	.listen(port, () => {
-		log.info('Express server listening on port ' + port);
-	});
+  .listen(port, () => {
+    log.info('Express server listening on port ' + port);
+  });
 
 var io = socket(server);
 app.set('io', io); // we can get it via req.app.get('io')
