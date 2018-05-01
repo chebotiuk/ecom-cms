@@ -22,6 +22,6 @@
       </div>
     </div>
   </div>
-  <script type="text/javascript" src="/js/app.js"></script>
+  <script type="text/javascript" src="/js/dist/main.js"></script>
   </body>
 </html>
