@@ -5,12 +5,14 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "webpack --mode development",
+    "build": "webpack --mode production",
     "watch": "webpack -w --mode development"
   },
   "author": "Pavlo <chebotuk@gmail.com> (chebotiuk.github.io)",
   "license": "ISC",
   "dependencies": {
+    "bootstrap": "^3.3.7",
+    "bootstrap.native": "^2.0.22",
     "socket.io": "^2.1.0"
   },
   "devDependencies": {
