@@ -6,6 +6,7 @@
     "start": "PORT=8000 NODE_PATH=. NODE_ENV=development supervisor app.js"
   },
   "dependencies": {
+    "bluebird": "^3.5.1",
     "connect-mongo": "^2.0.1",
     "cookie": "^0.3.1",
     "cookie-parser": "^1.4.3",

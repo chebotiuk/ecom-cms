@@ -55,7 +55,7 @@ app.use(app.router);
 
 routes(app);
 
-app.use(express.static(path.join(__dirname, 'public/dist')));
+app.use(express.static(path.join(__dirname, 'client/dist'))); // файлы public
 
 app.use((err, req, res, next) => {
   if (err instanceof HttpError) {

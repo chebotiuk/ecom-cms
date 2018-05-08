@@ -1,8 +1,8 @@
-var path = require('path');
 var util = require('util');
 var crypto = require('crypto');
-var mongoose = require(path.join(__dirname, '../libs/mongoose')),
-  Schema = mongoose.Schema;
+var mongoose = require('libs/mongoose');
+
+var { Schema } = mongoose;
 
 function AuthError(message) {
   Error.captureStackTrace(this, AuthError);
