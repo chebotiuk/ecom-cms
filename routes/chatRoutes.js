@@ -1,5 +1,6 @@
 var chatController = require('../controllers/chatController');
+var checkAuth = require('middleware/checkAuth');
 
 module.exports = app =>
   app
-    .get('/chat', (req, res) => chatController.getView(req, res))
+    .get('/chat', checkAuth, (req, res) => chatController.getView(req, res))

@@ -57,6 +57,10 @@ routes(app);
 
 app.use(express.static(path.join(__dirname, 'client/dist'))); // файлы public
 
+app.use((req, res, next) => {
+  next(new HttpError(404, '404 Page not found'));
+})
+
 app.use((err, req, res, next) => {
   if (err instanceof HttpError) {
     res.sendHttpError(err);

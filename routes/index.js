@@ -5,16 +5,11 @@ var homeRoutes = require('./homeRoutes');
 var User = require('models/user').User;
 var HttpError = require('error').HttpError;
 var ObjectId = require('mongodb').ObjectId;
-var checkAuth = require('middleware/checkAuth');
 
 module.exports = app => {
   homeRoutes(app)
   loginRoutes(app)
   chatRoutes(app)
-
-  app.get('/chat', checkAuth, (req, res) => {
-    res.render('chat');
-  });
 
   app.get('/users', (req, res, next) => {
     User.find({}, (err, users) => {
