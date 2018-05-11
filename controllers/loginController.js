@@ -1,6 +1,7 @@
-var User = require('models/user').User;
+var User = require('models/user')
+var { AuthError } = require('../error');
+
 var HttpError = require('error').HttpError;
-var AuthError = require('models/user').AuthError;
 
 class LoginController {
   getView (req, res) {

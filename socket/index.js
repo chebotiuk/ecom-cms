@@ -1,5 +1,5 @@
 var log = require('libs/logger')(module);
-var User = require('models/user').User;
+var User = require('models/user');
 var socketio = require('socket.io');
 var config = require('config');
 var cookie = require('cookie');

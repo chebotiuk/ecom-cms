@@ -1,7 +1,7 @@
-var HomeController = require('../controllers/homeController');
+var { getView } = require('../controllers/homeController');
 
 module.exports = app => {
-  app.get('/', (req, res) => HomeController.getView(req, res));
+  app.get('/', (req, res) => getView(req, res));
 }
 
 

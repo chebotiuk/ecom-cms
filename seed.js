@@ -1,5 +1,5 @@
 var mongoose = require('libs/mongoose')
-// var User = require('models/user').User
+// var User = require('models/user')
 mongoose.set('debug', true)
 
 var users = [

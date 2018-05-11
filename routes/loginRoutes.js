@@ -1,7 +1,11 @@
-var loginController = require('../controllers/loginController');
+var {
+  getView,
+  login,
+  logout,
+} = require('../controllers/loginController');
 
 module.exports = app =>
   app
-    .get('/login', (req, res) => loginController.getView(req, res))
-    .post('/login', (req, res, next) => loginController.login(req, res, next))
-    .post('/logout', (req, res, next) => loginController.logout(req, res, next))
+    .get('/login', (req, res) => getView(req, res))
+    .post('/login', (req, res, next) => login(req, res, next))
+    .post('/logout', (req, res, next) => logout(req, res, next))

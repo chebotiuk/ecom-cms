@@ -1,8 +1,9 @@
+var User = require('models/user');
+var productRoutes = require('./productRoutes');
 var chatRoutes = require('./chatRoutes');
 var loginRoutes = require('./loginRoutes');
 var homeRoutes = require('./homeRoutes');
 
-var User = require('models/user').User;
 var HttpError = require('error').HttpError;
 var ObjectId = require('mongodb').ObjectId;
 
@@ -10,6 +11,7 @@ module.exports = app => {
   homeRoutes(app)
   loginRoutes(app)
   chatRoutes(app)
+  productRoutes(app)
 
   app.get('/users', (req, res, next) => {
     User.find({}, (err, users) => {

@@ -10,4 +10,13 @@ function HttpError(status, message) {
 util.inherits(HttpError, Error);
 HttpError.prototype.name = 'HttpError';
 
+function AuthError(message) {
+  Error.captureStackTrace(this, AuthError);
+
+  this.message = message
+}
+util.inherits(AuthError, Error);
+AuthError.prototype.name = 'AuthError';
+
 exports.HttpError = HttpError;
+exports.AuthError = AuthError;

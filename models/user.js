@@ -1,21 +1,17 @@
-var util = require('util');
 var crypto = require('crypto');
 var mongoose = require('libs/mongoose');
+var { AuthError } = require('../error');
 
 var { Schema } = mongoose;
-
-function AuthError(message) {
-  Error.captureStackTrace(this, AuthError);
-
-  this.message = message
-}
-util.inherits(AuthError, Error);
-AuthError.prototype.name = 'AuthError';
 
 var schema = new Schema({
   username: {
     type: String,
     unique: true,
+    required: true
+  },
+  type: {
+    type: String,
     required: true
   },
   hashedPassword: {
@@ -72,5 +68,4 @@ schema.statics.authorize = function(username, password) {
     })
 }
 
-exports.User = mongoose.model('User', schema); // Экспортируем объект для управления бд
-exports.AuthError = AuthError;
+module.exports = mongoose.model('User', schema); // Экспортируем объект для управления бд
