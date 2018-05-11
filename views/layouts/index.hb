@@ -14,7 +14,10 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="/">Simple CMS</a>
+          <a class="navbar-brand" href="/">
+            <span class="glyphicon glyphicon-ok" aria-hidden="true"></span>
+              Simple CMS
+          </a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">

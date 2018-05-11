@@ -18,14 +18,14 @@ var app = express();
 app.engine('hb', hb({
   extname: 'hb',
   defaultLayout: 'index',
-  layoutsDir: __dirname + '/views/layouts/'
+  layoutsDir: path.join(__dirname, '/views/layouts/')
 }));
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'hb');
 
 app.use(express.favicon()); // устанавливает favicon.ico
 
-if (app.get('env') == 'development') { // выводит инфо о запросе
+if (app.get('env') === 'development') { // выводит инфо о запросе
   app.use(express.logger('dev'));
 } else {
   app.use(express.logger('default'));

@@ -5,14 +5,17 @@ mongoose.set('debug', true)
 var users = [
   {
     username: 'Admin',
+    type: 'admin',
     password: 'admin_password'
   },
   {
-    username: 'Manager',
+    username: 'Regular',
+    type: 'regularClient',
     password: 'managers_password'
   },
   {
     username: 'Client',
+    type: 'client',
     password: 'clients_password'
   }
 ]
