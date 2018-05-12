@@ -21,7 +21,7 @@
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
-            {{# if user }}
+            {{#if user }}
               <li class="active"><a href="/products">Products</a></li>
             {{/if}}
             <li class="dropdown">
@@ -38,9 +38,9 @@
             </li>
           </ul>
           <ul class="nav navbar-nav navbar-right">
-            {{# if user }}
+            {{#if user }}
               <li id="logoutBtn"><a href="">Log out</a></li>
-            {{ else }}
+            {{else}}
               <li><a href="/login">Login</a></li>
             {{/if}}
           </ul>

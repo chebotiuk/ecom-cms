@@ -31,13 +31,13 @@ class ProductsController {
   }
 
   create (req, res, next) {
-    const { name, description, price, categoryId } = req.body
+    const { name, description, wholesalePrice, price, marginRatio, categoryId } = req.body
 
     var newProduct = new Product({
       name,
       description,
-      price,
       wholesalePrice,
+      price,
       marginRatio,
       categoryId,
     });
