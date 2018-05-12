@@ -37,6 +37,8 @@ class ProductsController {
       name,
       description,
       price,
+      wholesalePrice,
+      marginRatio,
       categoryId,
     });
 

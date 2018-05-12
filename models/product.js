@@ -10,13 +10,23 @@ var schema = new Schema({
   description: {
     type: String,
   },
+  wholesalePrice: {
+    type: Number,
+  },
   price: {
     type: Number,
-    required: true
+  },
+  marginRatio: {
+    type: Number,
   },
   categoryId: {
     type: ObjectId,
   }
 });
+
+schema.virtual('calculatedPrice')
+  .get(function () {
+    return this.wholesalePrice * this.marginRatio
+  })
 
 module.exports = mongoose.model('Product', schema);
