@@ -6,18 +6,21 @@ var queryString = params =>
     .join('&')
 
 export class RestClient {
-  constructor (serverUrl = '', apiVersionNumber = '1') {
+  constructor ({ serverUrl = '', apiVersionNumber = '1' }) {
     this.baseUrl = serverUrl + '/api/v' + apiVersionNumber
   }
 
   getFullUrl (path) {
-    return this.baseUrl + '/' + path
+    return this.baseUrl + path
   }
 
   get (path, params) {
     return fetch(
       this.getFullUrl(path) + (params ? `?${queryString(params)}` : ''),
-      { method: 'GET' }
+      {
+        method: 'GET',
+        credentials: 'same-origin',
+      }
     )
   }
 
@@ -26,6 +29,7 @@ export class RestClient {
       this.getFullUrl(path),
       {
         method: 'POST',
+        credentials: 'same-origin',
         headers: {
           'Content-Type': 'application/json'
         },
@@ -39,6 +43,7 @@ export class RestClient {
       this.getFullUrl(path),
       {
         method: 'PUT',
+        credentials: 'same-origin',
         headers: {
           'Content-Type': 'application/json'
         },
@@ -52,6 +57,7 @@ export class RestClient {
       this.getFullUrl(path),
       {
         method: 'DELETE',
+        credentials: 'same-origin',
       }
     )
   }

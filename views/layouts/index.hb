@@ -39,7 +39,7 @@
           </ul>
           <ul class="nav navbar-nav navbar-right">
             {{#if user }}
-              <li id="logoutBtn"><a href="">Log out</a></li>
+              <li id="logoutBtn">Log out</li>
             {{else}}
               <li><a href="/login">Login</a></li>
             {{/if}}
