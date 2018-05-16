@@ -1,5 +1,6 @@
 class HomeController {
   getView (req, res) {
+    debugger;
     res.render('home', {
       title: '<u>Hello, It is a first page on Node.js app</u>',
       condition: true,

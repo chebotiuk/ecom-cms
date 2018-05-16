@@ -4,7 +4,8 @@
   "private": true,
   "scripts": {
     "start": "PORT=8000 NODE_PATH=. NODE_ENV=production supervisor app.js",
-    "dev": "PORT=8000 NODE_PATH=. NODE_ENV=development supervisor app.js",
+    "dev": "PORT=8000 NODE_PATH=. NODE_ENV=development supervisor -i 'node_modules' --inspect app.js",
+    "debug": "PORT=8000 NODE_PATH=. NODE_ENV=development node debug app.js",
     "seed": "NODE_PATH=. node seed.js"
   },
   "dependencies": {

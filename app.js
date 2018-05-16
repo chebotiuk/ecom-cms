@@ -33,7 +33,7 @@ if (app.get('env') === 'development') { // выводит инфо о запро
 
 app.use(express.bodyParser()); // разбирает тело запроса из POST, парсит в req.body
 
-app.use(express.cookieParser('your secret here')); // req.headers.cookie -> req.cookie
+app.use(express.cookieParser()); // req.headers.cookie -> req.cookie
 
 app.use(express.session({
   secret: config.get('session:secret'),
@@ -41,11 +41,6 @@ app.use(express.session({
   cookie: config.get('session:cookie'),
   store: sessionStore
 }));
-
-app.use((req, res, next) => {
-  req.session.numberOfVisits = req.session.numberOfVisits + 1 || 1;
-  next();
-})
 
 app.use(sendHttpError)
 
