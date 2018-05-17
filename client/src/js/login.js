@@ -1,4 +1,4 @@
-import { api } from './libs/api'
+import { api } from './lib/api'
 
 var form = document.querySelector('#loginForm')
 

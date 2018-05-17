@@ -8,7 +8,7 @@ import 'bootstrap.native/dist/bootstrap-native.min.js'
 
 import '../css/main.css'
 
-import { api } from './libs/api'
+import { api } from './lib/api'
 
 var logoutBtn = document.querySelector('#logoutBtn')
 
