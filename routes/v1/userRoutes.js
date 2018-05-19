@@ -1,8 +1,8 @@
 var {
   read,
   readOne,
-} = require('controllers/userController');
-var { api } = require('routes/endpoints');
+} = require('controllers/userController')
+var { api } = require('routes/endpoints')
 
 module.exports = app =>
   app

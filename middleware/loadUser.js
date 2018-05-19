@@ -1,20 +1,20 @@
-var User = require('models/user');
+var User = require('models/user')
 
 module.exports = function(req, res, next) {
-  req.user = res.locals.user = null;
+  req.user = res.locals.user = null
 
   if (!req.session.user) {
-    next();
-    return;
+    next()
+    return
   }
 
   User.findById(req.session.user, function(err, user) {
     if (err) {
-      next(err);
-      return;
+      next(err)
+      return
     }
 
-    req.user = res.locals.user = user;
-    next();
+    req.user = res.locals.user = user
+    next()
   })
 }

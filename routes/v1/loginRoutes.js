@@ -1,8 +1,8 @@
 var {
   login,
   logout,
-} = require('controllers/loginController');
-var { api } = require('../endpoints');
+} = require('controllers/loginController')
+var { api } = require('../endpoints')
 
 module.exports = app =>
   app

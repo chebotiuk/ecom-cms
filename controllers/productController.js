@@ -1,5 +1,5 @@
 var Product = require('models/product')
-var { HttpError } = require('../error');
+var { HttpError } = require('../error')
 
 class ProductsController {
   async getView (req, res) {
@@ -7,7 +7,7 @@ class ProductsController {
 
     res.render('products', {
       products,
-    });
+    })
   }
 
   read (req, res, next) {
@@ -40,7 +40,7 @@ class ProductsController {
       price,
       marginRatio,
       categoryId,
-    });
+    })
 
     newProduct.save(err => {
       if (err) {
@@ -49,7 +49,7 @@ class ProductsController {
       }
 
       res.send()
-    });
+    })
   }
 }
 

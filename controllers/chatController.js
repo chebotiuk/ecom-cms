@@ -1,6 +1,6 @@
 class ChatController {
   getView (req, res) {
-    res.render('chat');
+    res.render('chat')
   }
 }
 

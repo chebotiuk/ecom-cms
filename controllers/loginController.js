@@ -1,26 +1,26 @@
 var User = require('models/user')
-var { AuthError } = require('../error');
+var { AuthError } = require('../error')
 
-var HttpError = require('error').HttpError;
+var HttpError = require('error').HttpError
 
 class LoginController {
   getView (req, res) {
-    res.render('login');
+    res.render('login')
   }
 
   login (req, res, next) {
-    var username = req.body.username;
-    var password = req.body.password;
+    var username = req.body.username
+    var password = req.body.password
 
     User.authorize(username, password)
       .then(user => {
-        req.session.user = user._id;
-        res.send({});
+        req.session.user = user._id
+        res.send({})
       })
       .catch(err => {
         if (err) {
           if (err instanceof AuthError) {
-            next(new HttpError(403, err.message));
+            next(new HttpError(403, err.message))
             return
           } else {
             next(err)
@@ -31,14 +31,14 @@ class LoginController {
   }
 
   logout (req, res, next) {
-    var sid = req.session.id;
-    var io = req.app.get('io');
+    var sid = req.session.id
+    var io = req.app.get('io')
 
     req.session.destroy((err) => {
-      io.sockets._events.sessreload(sid); //generate system io event
+      io.sockets._events.sessreload(sid) //generate system io event
 
       if (err) {
-        next(err);
+        next(err)
         return
       }
 
@@ -47,8 +47,8 @@ class LoginController {
         return
       }
 
-      res.redirect('/');
-    });
+      res.redirect('/')
+    })
   }
 }
 
