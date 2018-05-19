@@ -4,24 +4,27 @@ var express = require('express');
 var config = require('config');
 
 var log = require('libs/logger')(module);
-var hb = require('express-handlebars');
+var hbs = require('express-handlebars');
 var HttpError = require('error').HttpError;
 var sendHttpError = require('middleware/sendHttpError');
 var loadUser = require('middleware/loadUser');
 var routes = require('routes');
 var sessionStore = require('libs/sessionStore');
 var socket = require('socket');
+var helpers = require('libs/helpers')
 
 var app = express();
 
 // view engine setup
-app.engine('hb', hb({
-  extname: 'hb',
+app.engine('.hbs', hbs({
+  extname: '.hbs',
   defaultLayout: 'index',
-  layoutsDir: path.join(__dirname, '/views/layouts/')
+  layoutsDir: path.join(__dirname, 'views/layouts/'),
+  partialsDir: path.join(__dirname, 'views/partials/'),
+  helpers,
 }));
+app.set('view engine', '.hbs');
 app.set('views', path.join(__dirname, 'views'));
-app.set('view engine', 'hb');
 
 app.use(express.favicon()); // устанавливает favicon.ico
 
