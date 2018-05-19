@@ -1,7 +1,8 @@
 {
   "env": {
     "es6": true,
-    "node": true
+    "node": true,
+    "browser": true
   },
   "extends": "eslint:recommended",
   "rules": {
@@ -24,6 +25,11 @@
     "no-console": 0
   },
   "parserOptions": {
-    "ecmaVersion": 2018
+    "ecmaVersion": 2017,
+    "sourceType": "module",
+    "impliedStrict": true,
+    "ecmaFeatures": {
+      "experimentalObjectRestSpread": true
+    }
   }
 }
