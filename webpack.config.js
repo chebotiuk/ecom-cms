@@ -1,16 +1,14 @@
 const path = require('path')
 
-const conf = {
+module.exports = {
   entry: {
     chat: './client/src/js/chat.js',
     home: './client/src/js/home.js',
     login: './client/src/js/login.js',
     main: './client/src/js/main.js'
   },
-  output: {
-    path: path.join(__dirname, 'client/dist'),
-    filename: '[name].js'
-  },
+  devtool: 'sourcemap',
+  mode: process.env.NODE_ENV,
   module: {
     rules: [
       {
@@ -46,12 +44,10 @@ const conf = {
         }]
       }
     ]
+  },
+  output: {
+    filename: '[name].js',
+    path: path.join(__dirname, 'client/dist'),
+    publicPath: '/',
   }
-}
-
-module.exports = (env, options) => {
-  let development = options.mode === 'development'
-
-  conf.devtool = development ? 'eval-sourcemap' : 'sourcemap'
-  return conf
 }

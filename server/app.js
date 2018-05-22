@@ -1,19 +1,29 @@
-var http = require('http')
-var path = require('path')
-var express = require('express')
-var config = require('config')
+const http = require('http')
+const path = require('path')
+const express = require('express')
+const config = require('config')
+const log = require('libs/logger')(module)
+const hbs = require('express-handlebars')
+const HttpError = require('error').HttpError
+const sendHttpError = require('middleware/sendHttpError')
+const loadUser = require('middleware/loadUser')
+const routes = require('routes')
+const sessionStore = require('libs/sessionStore')
+const socket = require('socket')
+const helpers = require('libs/helpers')
 
-var log = require('libs/logger')(module)
-var hbs = require('express-handlebars')
-var HttpError = require('error').HttpError
-var sendHttpError = require('middleware/sendHttpError')
-var loadUser = require('middleware/loadUser')
-var routes = require('routes')
-var sessionStore = require('libs/sessionStore')
-var socket = require('socket')
-var helpers = require('libs/helpers')
+const app = express()
 
-var app = express()
+if (process.env.NODE_ENV === 'development') {
+  const webpack = require('webpack')
+  const webpackDevMiddleware = require('webpack-dev-middleware')
+  const webpackConfig = require('../webpack.config.js')
+
+  const compiler = webpack(webpackConfig)
+  app.use(webpackDevMiddleware(compiler, {
+    publicPath: webpackConfig.output.publicPath
+  }))
+}
 
 // view engine setup
 app.engine('.hbs', hbs({
