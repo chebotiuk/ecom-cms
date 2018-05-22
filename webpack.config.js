@@ -2,13 +2,13 @@ const path = require('path')
 
 const conf = {
   entry: {
-    chat: './src/js/chat.js',
-    home: './src/js/home.js',
-    login: './src/js/login.js',
-    main: './src/js/main.js'
+    chat: './client/src/js/chat.js',
+    home: './client/src/js/home.js',
+    login: './client/src/js/login.js',
+    main: './client/src/js/main.js'
   },
   output: {
-    path: path.join(__dirname, 'dist'),
+    path: path.join(__dirname, 'client/dist'),
     filename: '[name].js'
   },
   module: {

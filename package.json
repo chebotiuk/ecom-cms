@@ -1,0 +1,43 @@
+{
+  "name": "chat",
+  "version": "0.0.1",
+  "private": true,
+  "scripts": {
+    "start": "PORT=8000 NODE_PATH=./server NODE_ENV=production supervisor app.js",
+    "dev": "PORT=8000 NODE_PATH=./server NODE_ENV=development supervisor -i 'node_modules' --inspect app.js",
+    "debug": "PORT=8000 NODE_PATH=./server NODE_ENV=development node debug app.js",
+    "seed": "NODE_PATH=./server node seed.js",
+    "build": "webpack --mode production",
+    "watch": "webpack -w --mode development"
+  },
+  "dependencies": {
+    "bluebird": "^3.5.1",
+    "connect-mongo": "^2.0.1",
+    "cookie": "^0.3.1",
+    "cookie-parser": "^1.4.3",
+    "crypto": "^1.0.1",
+    "express": "3.3.8",
+    "express-handlebars": "^3.0.0",
+    "mongodb": "^2.2.35",
+    "mongoose": "^4.13.12",
+    "nconf": "^0.8.5",
+    "rxjs": "^6.1.0",
+    "socket.io": "^2.1.0",
+    "supervisor": "^0.12.0",
+    "winston": "^2.4.1",
+    "bootstrap": "^3.3.7",
+    "bootstrap.native": "^2.0.22"
+  },
+  "devDependencies": {
+    "babel-cli": "^6.26.0",
+    "babel-core": "^6.26.3",
+    "babel-loader": "^7.1.4",
+    "babel-preset-env": "^1.7.0",
+    "css-loader": "^0.28.11",
+    "eslint": "^4.19.1",
+    "file-loader": "^1.1.11",
+    "style-loader": "^0.21.0",
+    "webpack": "^4.6.0",
+    "webpack-cli": "^2.1.2"
+  }
+}
