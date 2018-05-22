@@ -19,12 +19,12 @@ var app = express()
 app.engine('.hbs', hbs({
   extname: '.hbs',
   defaultLayout: 'index',
-  layoutsDir: path.join(__dirname, 'views/layouts/'),
-  partialsDir: path.join(__dirname, 'views/partials/'),
+  layoutsDir: path.join(__dirname, '../client/views/layouts/'),
+  partialsDir: path.join(__dirname, '../client/views/partials/'),
   helpers,
 }))
 app.set('view engine', '.hbs')
-app.set('views', path.join(__dirname, 'views'))
+app.set('views', path.join(__dirname, '../client/views'))
 
 app.use(express.favicon()) // устанавливает favicon.ico
 
@@ -53,7 +53,7 @@ app.use(app.router)
 
 routes(app)
 
-app.use(express.static(path.join(__dirname, 'client/dist'))) // файлы public
+app.use(express.static(path.join(__dirname, '../client/dist'))) // файлы public
 
 app.use((req, res, next) => {
   next(new HttpError(404, '404 Page not found'))
